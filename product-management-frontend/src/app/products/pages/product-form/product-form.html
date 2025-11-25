@@ -1,15 +1,32 @@
-<h2 class="title">Create Product</h2>
+<div class="form-page">
+  <section class="form-card">
+    <div class="form-card__header">
+      <p class="eyebrow">New product</p>
+      <h2>Create Product</h2>
+      <p>Fill out the details below to keep your inventory synced with the API.</p>
+    </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+      <label>
+        <span>Name</span>
+        <input formControlName="name" class="form-input" placeholder="Organic Coffee Beans" required />
+      </label>
 
-  <label>Name</label>
-  <input formControlName="name" class="form-input" />
+      <label>
+        <span>Category</span>
+        <input formControlName="categoryName" class="form-input" placeholder="Beverages" required />
+      </label>
 
-  <label>Category</label>
-  <input formControlName="categoryName" class="form-input" />
+      <label>
+        <span>Unit cost</span>
+        <input type="number" min="0" step="0.01" formControlName="unitCost" class="form-input" placeholder="79.90" required />
+        <small>Use Brazilian Real values. Decimals are allowed.</small>
+      </label>
 
-  <label>Unit Cost</label>
-  <input type="number" formControlName="unitCost" class="form-input" />
-
-  <button type="submit" class="btn-primary submit-btn">Save</button>
-</form>
+      <div class="form-actions">
+        <a routerLink="/products" class="btn-secondary">Back to list</a>
+        <button type="submit" class="btn-primary">Save product</button>
+      </div>
+    </form>
+  </section>
+</div>
