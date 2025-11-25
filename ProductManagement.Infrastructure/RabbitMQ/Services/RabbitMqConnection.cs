@@ -11,7 +11,7 @@ namespace ProductManagement.Infrastructure.RabbitMQ.Services
         {
             _settings = options.Value;
         }
-        public Task<IConnection> CreateConnectionAsync()
+        public async Task<IConnection> CreateConnectionAsync()
         {
             ConnectionFactory factory = new ConnectionFactory
             {
@@ -20,7 +20,25 @@ namespace ProductManagement.Infrastructure.RabbitMQ.Services
                 Password = _settings.Password,
                 Port = _settings.Port
             };
-            return factory.CreateConnectionAsync();
+            var retries = 5;
+
+            while (retries > 0)
+            {
+                try
+                {
+                    return await factory.CreateConnectionAsync();
+                }
+                catch
+                {
+                    retries--;
+                    await Task.Delay(2000);
+
+                    if (retries == 0)
+                        throw;
+                }
+            }
+
+            throw new Exception("Failed to connect to RabbitMQ");
         }
     }
 }
