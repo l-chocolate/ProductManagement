@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
   <Project Path="ProductManagement.API/ProductManagement.API.csproj" Id="806b9c41-99d4-439d-a3bc-c79fa78c7a83" />
   <Project Path="ProductManagement.Application/ProductManagement.Application.csproj" />
   <Project Path="ProductManagement.Domain/ProductManagement.Domain.csproj" />
