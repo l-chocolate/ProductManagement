@@ -1,0 +1,20 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-bottom: 15px;
+}

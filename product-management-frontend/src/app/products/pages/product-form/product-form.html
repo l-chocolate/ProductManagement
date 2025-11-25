@@ -1,0 +1,15 @@
+<h1>Create Product</h1>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <label>Name</label>
+  <input formControlName="name" />
+
+  <label>Category</label>
+  <input formControlName="categoryName" />
+
+  <label>Unit Cost</label>
+  <input type="number" formControlName="unitCost" />
+
+  <button type="submit">Save</button>
+</form>
