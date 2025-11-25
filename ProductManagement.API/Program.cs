@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductManagement.Application.Events.Interfaces;
+using ProductManagement.Application.Events.Services;
 using ProductManagement.Application.RabbitMq.MessageHandlers;
 using ProductManagement.Domain.Entities;
 using ProductManagement.Infrastructure;

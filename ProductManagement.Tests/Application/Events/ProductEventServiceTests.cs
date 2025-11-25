@@ -1,6 +1,7 @@
 ﻿using Moq;
 using ProductManagement.Domain.Entities;
 using ProductManagement.Infrastructure.RabbitMQ.Interfaces;
+using ProductManagement.Application.Events.Services;
 using System.Text.Json;
 
 namespace ProductManagement.Tests.Application.Events;
