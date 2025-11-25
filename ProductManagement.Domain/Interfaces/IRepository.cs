@@ -8,5 +8,6 @@ namespace ProductManagement.Domain.Interfaces
         Task<TEntity> Update(TEntity entity);
         Task Delete(TEntity entity);
         Task<TEntity?> GetById(int id);
+        Task<List<TEntity>> GetAll();
     }
 }

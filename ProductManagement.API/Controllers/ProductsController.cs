@@ -26,7 +26,7 @@ namespace ProductManagement.API.Controllers
 
             await _productRepository.Add(product);
             await _eventService.PublishCreatedProductAsync(product);
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, ConvertProductOnProductResponse(product));
         }
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
@@ -80,6 +80,14 @@ namespace ProductManagement.API.Controllers
                 ProductId = product.Id,
                 UnitCost = product.UnitCost
             };
+        }
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<ProductResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetProducts()
+        {
+            List<Product> products = await _productRepository.GetAll();
+
+            return products.Select(ConvertProductOnProductResponse).ToList();
         }
     }
 }
