@@ -1,15 +1,15 @@
-<h1>Create Product</h1>
+<h2 class="title">Create Product</h2>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-container">
 
   <label>Name</label>
-  <input formControlName="name" />
+  <input formControlName="name" class="form-input" />
 
   <label>Category</label>
-  <input formControlName="categoryName" />
+  <input formControlName="categoryName" class="form-input" />
 
   <label>Unit Cost</label>
-  <input type="number" formControlName="unitCost" />
+  <input type="number" formControlName="unitCost" class="form-input" />
 
-  <button type="submit">Save</button>
+  <button type="submit" class="btn-primary submit-btn">Save</button>
 </form>

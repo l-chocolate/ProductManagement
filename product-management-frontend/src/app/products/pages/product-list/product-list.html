@@ -1,8 +1,10 @@
-<h1>Products</h1>
+<h1 class="title">Product Management</h1>
 
-<a routerLink="/products/create" class="btn">+ Add Product</a>
+<div class="actions">
+  <a routerLink="/products/create" class="btn-primary">+ Add Product</a>
+</div>
 
-<table class="table">
+<table class="styled-table">
   <thead>
     <tr>
       <th>ID</th>
@@ -18,9 +20,8 @@
       <td>{{ p.productId }}</td>
       <td>{{ p.name }}</td>
       <td>{{ p.categoryName }}</td>
-      <td>{{ p.unitCost }}</td>
-      <td>{{ p.createdAt | date:'short' }}</td>
+      <td>R$ {{ p.unitCost }}</td>
+      <td>{{ p.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
     </tr>
   </tbody>
 </table>
-
