@@ -1,15 +1,17 @@
-﻿using ProductManagement.Application.Events.Interfaces;
+using ProductManagement.Application.Events.Interfaces;
 using ProductManagement.Domain.Entities;
 using ProductManagement.Infrastructure.RabbitMQ.Interfaces;
 
-public class ProductEventService(IRabbitMqProducer producer) : IProductEventService
+namespace ProductManagement.Application.Events.Services
 {
-    private readonly IRabbitMqProducer _producer = producer;
-
-    public async Task PublishCreatedProductAsync(Product product)
+    public class ProductEventService(IRabbitMqProducer producer) : IProductEventService
     {
-        string productPayload = System.Text.Json.JsonSerializer.Serialize(product);
-        await _producer.SendMessageAsync(productPayload, "product.created");
-    }
+        private readonly IRabbitMqProducer _producer = producer;
 
+        public async Task PublishCreatedProductAsync(Product product)
+        {
+            string productPayload = System.Text.Json.JsonSerializer.Serialize(product);
+            await _producer.SendMessageAsync(productPayload, "product.created");
+        }
+    }
 }
