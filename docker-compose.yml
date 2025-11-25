@@ -1,0 +1,57 @@
+name: product-management
+
+services:
+  productmanagement.api:
+    image: ${DOCKER_REGISTRY-}productmanagementapi
+    build:
+      context: .
+      dockerfile: ProductManagement.API/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_URLS: "http://0.0.0.0:8080"
+      ASPNETCORE_ENVIRONMENT: "Production"
+      
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=productsdb;Username=postgres;Password=postgres"
+      
+      RabbitMq__HostName: rabbitmq
+      RabbitMq__Port: 5672
+      RabbitMq__UserName: guest
+      RabbitMq__Password: guest
+
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - app_network
+
+  postgres:
+    image: postgres:15
+    container_name: product_postgres
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: productsdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: product_rabbit
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+volumes:
+  pgdata:
