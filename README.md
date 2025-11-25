@@ -60,6 +60,6 @@ dotnet test
 ### 5 - Front-End
 Foi criado um projeto em Angular que pode ser acessado em:
 ```
-http://localhost:4200
+http://localhost:4200/products
 ```
 
