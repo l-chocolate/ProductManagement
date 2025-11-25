@@ -30,7 +30,21 @@ builder.Services.AddScoped<IMessageHandler<Product>, CreatedProductHandler>();
 builder.Services.AddHostedService<ProductCreatedConsumerHostedService>();
 builder.Configuration.AddEnvironmentVariables();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithOrigins("http://localhost:4200");
+        });
+});
+
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 if (app.Environment.IsDevelopment())
 {

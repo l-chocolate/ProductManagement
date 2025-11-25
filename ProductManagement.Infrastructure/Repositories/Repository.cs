@@ -1,4 +1,5 @@
-﻿using ProductManagement.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductManagement.Domain.Entities;
 using ProductManagement.Domain.Interfaces;
 using ProductManagement.Infrastructure.Database;
 
@@ -30,6 +31,10 @@ namespace ProductManagement.Infrastructure.Repositories
             _productDbContext.Set<TEntity>().Update(entity);
             await _productDbContext.SaveChangesAsync();
             return entity;
+        }
+        public async Task<List<TEntity>> GetAll()
+        {
+            return await _productDbContext.Set<TEntity>().ToListAsync();
         }
     }
 }

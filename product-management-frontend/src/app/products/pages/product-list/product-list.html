@@ -1,0 +1,95 @@
+<ng-container *ngIf="vm$ | async as vm; else loadingState">
+  <div class="page-shell">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Inventory overview</p>
+        <h1>Product Management</h1>
+        <p class="subtitle">
+          Track the categories, prices, and creation history of your catalog from a single, friendly view.
+        </p>
+      </div>
+      <a routerLink="/products/create" class="btn-primary btn-lg">
+        + Add Product
+      </a>
+    </header>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <p class="label">Total products</p>
+        <h2>{{ vm.total }}</h2>
+        <span class="helper">Updated live from the API</span>
+      </article>
+
+      <article class="stat-card">
+        <p class="label">Average unit cost</p>
+        <h2>{{ vm.averageCost | currency: 'BRL':'symbol-narrow' }}</h2>
+        <span class="helper">Highest cost: {{ vm.highestCost | currency: 'BRL':'symbol-narrow' }}</span>
+      </article>
+
+      <article class="stat-card accent">
+        <p class="label">Top category</p>
+        <h2>{{ vm.topCategory }}</h2>
+        <span class="helper" *ngIf="vm.total; else categoryFallback">
+          Based on {{ vm.total }} {{ vm.total === 1 ? 'item' : 'items' }}
+        </span>
+        <ng-template #categoryFallback>
+          <span class="helper">Add a product to see insights</span>
+        </ng-template>
+      </article>
+    </section>
+
+    <section class="table-card" *ngIf="vm.products.length; else emptyState">
+      <div class="table-headline">
+        <div>
+          <p class="label">Catalog</p>
+          <h3>Available products</h3>
+        </div>
+        <p class="helper">Showing {{ vm.products.length }} {{ vm.products.length === 1 ? 'item' : 'items' }}</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Unit Cost</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let p of vm.products">
+              <td>#{{ p.productId }}</td>
+              <td>
+                <div class="product-name">{{ p.name }}</div>
+                <span class="muted-text">ID {{ p.productId }}</span>
+              </td>
+              <td>
+                <span class="category-chip">{{ p.categoryName || 'Uncategorized' }}</span>
+              </td>
+              <td>{{ p.unitCost | currency: 'BRL':'symbol-narrow' }}</td>
+              <td>{{ p.createdAt | date: 'dd/MM/yyyy • HH:mm' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</ng-container>
+
+<ng-template #loadingState>
+  <div class="loading-state">
+    <span class="pulse"></span>
+    <p>Loading your products...</p>
+  </div>
+</ng-template>
+
+<ng-template #emptyState>
+  <div class="empty-state">
+    <h3>Your shelf is empty</h3>
+    <p>Start building your catalog and the dashboard will visualize it right away.</p>
+    <a routerLink="/products/create" class="btn-primary">Add your first product</a>
+  </div>
+</ng-template>
