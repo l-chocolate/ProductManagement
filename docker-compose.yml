@@ -50,6 +50,18 @@ services:
     networks:
       - app_network
 
+  productmanagement.frontend:
+    build:
+      context: ./product-management-frontend
+      dockerfile: Dockerfile
+    image: productmanagement-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - productmanagement.api
+    networks:
+      - app_network
+
 networks:
   app_network:
 
