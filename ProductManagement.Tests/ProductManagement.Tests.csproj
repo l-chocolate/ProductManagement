@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProductManagement.API\ProductManagement.API.csproj" />
     <ProjectReference Include="..\ProductManagement.Application\ProductManagement.Application.csproj" />
     <ProjectReference Include="..\ProductManagement.Infrastructure\ProductManagement.Infrastructure.csproj" />
   </ItemGroup>
