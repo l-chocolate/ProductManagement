@@ -1,7 +1,9 @@
-﻿using ProductManagement.Application.Events.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductManagement.Application.Events.Interfaces;
 using ProductManagement.Application.RabbitMq.MessageHandlers;
 using ProductManagement.Domain.Entities;
 using ProductManagement.Infrastructure;
+using ProductManagement.Infrastructure.Database;
 using ProductManagement.Infrastructure.RabbitMQ.Interfaces;
 using ProductManagement.Infrastructure.RabbitMQ.Services;
 using ProductManagement.Infrastructure.Services;
@@ -37,5 +39,25 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+    var retry = 5;
+
+    while (retry > 0)
+    {
+        try
+        {
+            db.Database.Migrate();
+            break;
+        }
+        catch
+        {
+            retry--;
+            Thread.Sleep(2000);
+        }
+    }
+}
 
 app.Run();

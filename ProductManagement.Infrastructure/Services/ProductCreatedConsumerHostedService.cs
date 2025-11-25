@@ -13,10 +13,24 @@ namespace ProductManagement.Infrastructure.Services
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _consumer.ReceiveMessagesAsync(
-                queueName: "product.created",
-                cancellationToken: stoppingToken
-            );
+            var retries = 5;
+
+            while (retries > 0 && !stoppingToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await _consumer.ReceiveMessagesAsync("product.created", stoppingToken);
+                    break;
+                }
+                catch (Exception)
+                {
+                    retries--;
+                    await Task.Delay(2000, stoppingToken);
+
+                    if (retries == 0)
+                        throw;
+                }
+            }
         }
     }
 }
