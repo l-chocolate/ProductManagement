@@ -16,7 +16,7 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let p of products">
+    <tr *ngFor="let p of products$ | async">
       <td>{{ p.productId }}</td>
       <td>{{ p.name }}</td>
       <td>{{ p.categoryName }}</td>
