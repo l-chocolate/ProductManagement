@@ -1,15 +1,34 @@
+﻿using ProductManagement.Application.Events.Interfaces;
+using ProductManagement.Application.RabbitMq.MessageHandlers;
+using ProductManagement.Domain.Entities;
+using ProductManagement.Infrastructure;
+using ProductManagement.Infrastructure.RabbitMQ.Interfaces;
+using ProductManagement.Infrastructure.RabbitMQ.Services;
+using ProductManagement.Infrastructure.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.Configure<RabbitMqSettings>(
+    builder.Configuration.GetSection("RabbitMq"));
+
+builder.Services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
+builder.Services.AddSingleton<IRabbitMqProducer, RabbitMqProducer>();
+builder.Services.AddSingleton(typeof(IRabbitMqConsumer<>), typeof(RabbitMqConsumer<>));
+
+builder.Services.AddScoped<IProductEventService, ProductEventService>();
+builder.Services.AddScoped<IMessageHandler<Product>, CreatedProductHandler>();
+
+builder.Services.AddHostedService<ProductCreatedConsumerHostedService>();
+builder.Configuration.AddEnvironmentVariables();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,7 +36,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
